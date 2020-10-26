@@ -11,18 +11,20 @@ function Groups() {
   const removeGroup = (group) => localStorage.removeItem(group);
 
   return (
-    <div className='groups'>
-      <button onClick={setShowGroupForm(true)}>+</button>
-      <ul>
-        {Object.keys(localStorage).map((group) => {
-          return (
-            <li key={group}>
-              <button onClick={() => removeGroup.bind(group)}>x</button>
-              <p onClick={() => setSelectedGroup.bind(group)}>{group.name}</p>
-            </li>
-          )
-        })}
-      </ul>
+    <div>
+      <div className='groups'>
+        <button onClick={setShowGroupForm(true)}>+</button>
+        <ul>
+          {Object.keys(localStorage).map((group) => {
+            return (
+              <li key={group}>
+                <button onClick={() => removeGroup(group)}>x</button>
+                <p onClick={() => setSelectedGroup(group)}>{group.name}</p>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
       { showGroupForm && <GroupForm /> }
       { selectedGroup && <Tasks group={selectedGroup}/> }
     </div>
