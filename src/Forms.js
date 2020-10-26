@@ -15,10 +15,17 @@ function GroupForm () {
 }
 
 
-function TaskForm ({addTask}) {
-    const [name, setName] = useState('');
-    const [note, setNote] = useState('');
-    const [dateBy, setDateBy] = useState(null);
+function TaskForm ({ addTask, task, }) {
+    const initialTask = (task) ? task
+        : {
+            name: '',
+            note: '',
+            dateBy: null
+        }
+        
+    const [name, setName] = useState(initialTask.name);
+    const [note, setNote] = useState(initialTask.note);
+    const [dateBy, setDateBy] = useState(initialTask.dateBy);
     const submit = () => {
         const task = {
             name,
