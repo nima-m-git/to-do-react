@@ -1,5 +1,8 @@
 import { useImmer } from 'use-immer';
-const { useState, useEffect } = require("react");
+import { useState, useEffect } from 'react';
+
+import { TaskForm } from './Forms';
+
 
 
 function Tasks(group) {
@@ -12,13 +15,18 @@ function Tasks(group) {
     })
 
     
+    const addTask = (task) => {
+        setTasks(draft => {
+            draft = {...draft, task};
+        })
+    }
+
     const removeTask = (task) => Object.keys(tasks).reduce((object, key) => {
         if (key !== task) {
             object[key] = tasks[key]
         }
         return object
     }, {})
-
 
     const completeTaskToggle = (task) => {
         setTasks(draft => {
@@ -32,23 +40,27 @@ function Tasks(group) {
         })
     }
         
-
     return (
         <div>
             <div className='tasks'>
                 <button onClick={() => setShowTaskForm(true)}>+</button>
                 <ul>
                     {tasks.map((task) => {
-                        <li>
-                            <button onClick={() => setTasks(draft => draft = removeTask(task))}>x</button>
-                            <button onClick={() => completeTaskToggle(task)}>Complete</button>
-                            <p onClick={() => setSelectedTask(task)}>{task.name}</p>
-                        </li>
+                        return (
+                            <li>
+                                <button onClick={() => setTasks(draft => draft = removeTask(task))}>x</button>
+                                <button onClick={() => completeTaskToggle(task)}>Complete</button>
+                                <p onClick={() => setSelectedTask(task)}>{task.name}</p>
+                            </li>
+                        )
                     })}
                 </ul>
             </div>
-            { showTaskForm && <TaskForm /> }
+            { showTaskForm && <TaskForm addTask={addTask}/> }
             { selectedTask && <ExpandedTask task={selectedTask} updateTask={updateTask}/> }
         </div>
     )
 }
+
+
+export default Tasks

@@ -1,7 +1,8 @@
 import './App.css';
 import { useState } from 'react';
 
-import GroupForm from './GroupForm';
+import { GroupForm } from './Forms';
+import Tasks from './Tasks';
 
 
 function Groups() {
