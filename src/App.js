@@ -1,6 +1,8 @@
 import './App.css';
 import { useState } from 'react';
 
+import GroupForm from './GroupForm';
+
 
 function Groups() {
   const [showGroupForm, setShowGroupForm] = useState(false);
