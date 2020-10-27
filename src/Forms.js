@@ -1,51 +1,46 @@
 import { useState } from 'react';
 
-
-function GroupForm () {
-    const [name, setName] = useState('');
-    const submit = () => localStorage.setItem(name, JSON.stringify({ tasks: {} }));
+function GroupForm ({ addGroup, exitForm, }) {
+    const [title, setTitle] = useState('');
+    const onSubmit = () => {
+        addGroup(title);
+        exitForm();
+    }
 
     return (
-        <form onSubmit={submit}>
-            <label for='name'>
-                <input type='text' onChange={(e) => setName(e.target.value)}>{name}</input>
+        <form onSubmit={onSubmit}>
+            <label>Title:
+                <input type='text' onChange={(e) => setTitle(e.target.value)} value={title}/>
             </label>
+            <input type='submit' value='Submit' />
         </form>
     )
 }
 
 
-function TaskForm ({ addTask, task, }) {
-    const initialTask = (task) ? task
-        : {
-            name: '',
-            note: '',
-            dateBy: null
-        }
-        
-    const [name, setName] = useState(initialTask.name);
-    const [note, setNote] = useState(initialTask.note);
-    const [dateBy, setDateBy] = useState(initialTask.dateBy);
-    const submit = () => {
+function TaskForm ({ action, task, exitForm, }) {
+    const [title, setTitle] = useState(task?.title || '');
+    const [note, setNote] = useState(task?.note || '');
+    const onSubmit = () => {
         const task = {
-            name,
+            title,
             note,
-            dateBy,
+            completed: false,
         }
-        addTask(task);
+        action(task);
+        exitForm();
     }
 
+
     return (
-        <form onSubmit={submit}>
-            <label for='name'>
-                <input type='text' onChange={(e) => setName(e.target.value)}>{name}</input>
+        <form onSubmit={onSubmit}>
+            <label>Title:
+                <input type='text' onChange={(e) => setTitle(e.target.value)} value={title}/>
             </label>
-            <label for='note'>
-                <input type='textfield' onChange={(e) => setNote(e.target.value)}>{note}</input>
+            <label>Note:
+                <input type='textfield' onChange={(e) => setNote(e.target.value)} value={note}/>
             </label>
-            <label for='dateBy'>
-                <input type='date' onChange={(e) => setDateBy(e.target.value)}>{dateBy}</input>
-            </label>
+            <input type='submit' value='Submit'/>
         </form>
     )
 }

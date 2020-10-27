@@ -4,20 +4,31 @@ import { useState, useEffect } from 'react';
 import { TaskForm } from './Forms';
 
 
-
-function Tasks(group) {
-    const [tasks, setTasks] = useImmer(JSON.parse(localStorage.getItem(group)).tasks);
-    const [showTaskForm, setShowTaskForm] = useState(false);
-    const [selectedTask, setSelectedTask] = useState(null);
+function Tasks({ group, }) {
+    const [tasks, setTasks] = useImmer(JSON.parse(localStorage.getItem(group)).tasks || {});
+    const [taskForm, setTaskForm] = useState({
+        show: false,
+        action: null,
+        selected: null,
+    });
 
     useEffect(() => {
-        localStorage.setItem(group, JSON.stringify(group, tasks));
+        localStorage.setItem(group, JSON.stringify({
+            ...JSON.parse(localStorage.getItem(group)), 
+            tasks,
+        }));
     })
 
-    
     const addTask = (task) => {
+        const title = task.title;
         setTasks(draft => {
-            draft = {...draft, task};
+            draft[title] = task;
+        })
+    }
+
+    const updateTask = (task) => {
+        setTasks(draft => {
+            draft[taskForm.selected] = task;
         })
     }
 
@@ -33,31 +44,44 @@ function Tasks(group) {
             draft[task].completed = (tasks[task].completed) ? false : true;
         })
     }
-
-    const updateTask = (task) => {
-        setTasks(draft => {
-            draft[selectedTask] = task;
-        })
-    }
-        
+ 
     return (
         <div>
             <div className='tasks'>
-                <button onClick={() => setShowTaskForm(true)}>+</button>
+                <h2>Tasks</h2>
+                <button onClick={() => {
+                    setTaskForm({
+                        show: true,
+                        action: 'new'
+                    });
+                }
+                }>+</button>
                 <ul>
-                    {tasks.map((task) => {
+                    {Object.keys(tasks).map((task) => {
                         return (
-                            <li>
+                            <li key={task}>
                                 <button onClick={() => setTasks(draft => draft = removeTask(task))}>x</button>
                                 <button onClick={() => completeTaskToggle(task)}>Complete</button>
-                                <p onClick={() => setSelectedTask(task)}>{task.name}</p>
+                                <p onClick={() => {
+                                    setTaskForm({
+                                        show: true,
+                                        action: 'update',
+                                        selected: JSON.parse(localStorage.getItem(group)).tasks[task],
+                                    });
+                                }
+                                }>{task}</p>
                             </li>
                         )
                     })}
                 </ul>
             </div>
-            { showTaskForm && <TaskForm addTask={addTask}/> }
-            { selectedTask && <ExpandedTask task={selectedTask} updateTask={updateTask}/> }
+            {taskForm.show && 
+                <TaskForm 
+                    action={(taskForm.action === 'new') ? addTask : updateTask} 
+                    task={taskForm.selected} 
+                    exitForm={() => setTaskForm({ show: false })}
+                /> 
+            }
         </div>
     )
 }
