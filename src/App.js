@@ -32,6 +32,12 @@ function Groups() {
       <div className='groups'>
         <h2>Groups</h2>
         <button onClick={() => setExpand({ groupForm: true })}>+</button>
+        {expand.groupForm && 
+          <GroupForm 
+            addGroup={addGroup}
+            exitForm={() => setExpand({ groupForm: false })}
+          /> 
+        }
         <ul>
           {groups().map((group) => {
             return (
@@ -46,12 +52,6 @@ function Groups() {
           })}
         </ul>
       </div>
-      {expand.groupForm && 
-        <GroupForm 
-          addGroup={addGroup}
-          exitForm={() => setExpand({ groupForm: false })}
-        /> 
-      }
     </div>
   )
 }

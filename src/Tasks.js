@@ -16,8 +16,6 @@ function Tasks({ group, }) {
         localStorage.setItem(group, JSON.stringify({
             tasks,
         }));
-
-        console.log(taskForm.selected)
     })
 
     const addTask = (task) => {
@@ -58,19 +56,19 @@ function Tasks({ group, }) {
                 }
                 }>+</button>
                 <ul>
-                    {Object.keys(tasks).map((task) => {
+                    {Object.keys(tasks).map((taskName) => {
                         return (
-                            <li key={task} className='task'>
-                                <button onClick={() => setTasks(draft => draft = removeTask(task))}>x</button>
-                                <p className='title' onClick={() => {
+                            <li key={taskName} className='task'>
+                                <button onClick={() => setTasks(draft => draft = removeTask(taskName))}>x</button>
+                                <p className={(tasks[taskName].completed) ? 'title crossed' : 'title'} onClick={() => {
                                     setTaskForm({
                                         show: true,
                                         action: 'update',
-                                        selected: JSON.parse(localStorage.getItem(group)).tasks[task],
+                                        selected: JSON.parse(localStorage.getItem(group)).tasks[taskName],
                                     });
                                 }
-                                }>{task}</p>
-                                <button onClick={() => completeTaskToggle(task)}>&#10003;</button>
+                                }>{taskName}</p>
+                                <button onClick={() => completeTaskToggle(taskName)}>&#10003;</button>
                             </li>
                         )
                     })}

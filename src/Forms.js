@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function GroupForm ({ addGroup, exitForm, }) {
     const [title, setTitle] = useState('');
@@ -19,26 +19,31 @@ function GroupForm ({ addGroup, exitForm, }) {
 
 
 function TaskForm ({ action, task, exitForm, }) {
-    const [title, setTitle] = useState(task?.title || '');
-    const [note, setNote] = useState(task?.note || '');
+    const [taskForm, setTaskForm] = useState({
+        title: task?.title,
+        note: task?.note,
+    })
+
     const onSubmit = () => {
-        const task = {
-            title,
-            note,
-            completed: false,
-        }
-        action(task);
+        action(taskForm);
         exitForm();
     }
+
+    useEffect(() => {
+        setTaskForm({
+            title: task?.title,
+            note: task?.note,
+        })
+    }, [task])
 
 
     return (
         <form onSubmit={onSubmit}>
             <label>Title:
-                <input type='text' onChange={(e) => setTitle(e.target.value)} value={title}/>
+                <input type='text' onChange={(e) => setTaskForm({ title: e.target.value })} value={taskForm.title || ''}/>
             </label>
             <label>Note:
-                <input type='textfield' onChange={(e) => setNote(e.target.value)} value={note}/>
+                <input type='textfield' onChange={(e) => setTaskForm({ note: e.target.value })} value={taskForm.note || ''}/>
             </label>
             <input type='submit' value='Submit'/>
         </form>
