@@ -9,7 +9,7 @@ function Groups() {
   const groups = () => Object.keys(localStorage);
   const [expand, setExpand] = useState({
     groupForm: false,
-    tasks: false,
+    selectedGroup: null,
   })
 
   const addGroup = (name) => localStorage.setItem(name, JSON.stringify(
@@ -37,8 +37,8 @@ function Groups() {
             return (
               <li key={group}>
                 <button className='remove' onClick={() => removeGroup(group)}>x</button>
-                <p onClick={() => setExpand({ tasks: true })}>{group}</p>
-                {expand.tasks && 
+                <p onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === group) ? null : group })}>{group}</p>
+                {expand.selectedGroup === group && 
                   <Tasks group={group} />
                 }
               </li>
