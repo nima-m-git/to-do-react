@@ -1,0 +1,48 @@
+header {
+    display: flex;
+    justify-content: center;
+}
+
+.groups {
+    position: absolute;
+    top: 30vh;
+    left: 5vw;
+    background: rgba(194, 243, 243, 0.363);
+
+    .group {
+        display: flex;
+        border: 1px dotted rgb(87, 129, 23);
+        align-items: center;
+    }
+
+    .group > * {
+        margin: 0 10px;
+    }
+
+    .group > .title {
+        font-size: 1.5em;
+        font-weight: 600;
+    }
+
+    .title:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.tasks {
+    border: 2px solid cyan;
+
+    .task {
+        border: 1px solid grey;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .title {
+            padding: 10px 5px;
+        }
+    }
+}
+
+

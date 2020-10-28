@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { useState, useEffect } from 'react';
 
 import { GroupForm } from './Forms';
@@ -35,9 +35,9 @@ function Groups() {
         <ul>
           {groups().map((group) => {
             return (
-              <li key={group}>
-                <button className='remove' onClick={() => removeGroup(group)}>x</button>
-                <p onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === group) ? null : group })}>{group}</p>
+              <li key={group} className='group'>
+                <button className='remove-btn' onClick={() => removeGroup(group)}>x</button>
+                <p className='title' onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === group) ? null : group })}>{group}</p>
                 {expand.selectedGroup === group && 
                   <Tasks group={group} />
                 }
@@ -60,6 +60,9 @@ function Groups() {
 function App() {
   return (
     <div className="App">
+      <header>
+        <h1>To-Do</h1>
+      </header>
       <Groups />
     </div>
   );

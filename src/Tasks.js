@@ -16,6 +16,8 @@ function Tasks({ group, }) {
         localStorage.setItem(group, JSON.stringify({
             tasks,
         }));
+
+        console.log(taskForm.selected)
     })
 
     const addTask = (task) => {
@@ -26,7 +28,8 @@ function Tasks({ group, }) {
 
     const updateTask = (task) => {
         setTasks(draft => {
-            draft[taskForm.selected] = task;
+            delete draft[taskForm.selected.title];
+            draft[task.title] = task;
         })
     }
 
@@ -46,7 +49,7 @@ function Tasks({ group, }) {
     return (
         <div>
             <div className='tasks'>
-                <h2>Tasks</h2>
+                <p>Tasks</p>
                 <button onClick={() => {
                     setTaskForm({
                         show: true,
@@ -57,10 +60,9 @@ function Tasks({ group, }) {
                 <ul>
                     {Object.keys(tasks).map((task) => {
                         return (
-                            <li key={task}>
+                            <li key={task} className='task'>
                                 <button onClick={() => setTasks(draft => draft = removeTask(task))}>x</button>
-                                <button onClick={() => completeTaskToggle(task)}>Complete</button>
-                                <p onClick={() => {
+                                <p className='title' onClick={() => {
                                     setTaskForm({
                                         show: true,
                                         action: 'update',
@@ -68,6 +70,7 @@ function Tasks({ group, }) {
                                     });
                                 }
                                 }>{task}</p>
+                                <button onClick={() => completeTaskToggle(task)}>&#10003;</button>
                             </li>
                         )
                     })}
