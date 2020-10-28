@@ -7,8 +7,10 @@ import Tasks from './Tasks';
 
 function Groups() {
   const groups = () => Object.keys(localStorage);
-  const [showGroupForm, setShowGroupForm] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [expand, setExpand] = useState({
+    groupForm: false,
+    tasks: false,
+  })
 
   const addGroup = (name) => localStorage.setItem(name, JSON.stringify(
     { 
@@ -29,27 +31,25 @@ function Groups() {
     <div>
       <div className='groups'>
         <h2>Groups</h2>
-        <button onClick={() => setShowGroupForm(true)}>+</button>
+        <button onClick={() => setExpand({ groupForm: true })}>+</button>
         <ul>
           {groups().map((group) => {
             return (
               <li key={group}>
-                <button onClick={() => removeGroup(group)}>x</button>
-                <p onClick={() => setSelectedGroup(group)}>{group}</p>
+                <button className='remove' onClick={() => removeGroup(group)}>x</button>
+                <p onClick={() => setExpand({ tasks: true })}>{group}</p>
+                {expand.tasks && 
+                  <Tasks group={group} />
+                }
               </li>
             )
           })}
         </ul>
       </div>
-      {showGroupForm && 
+      {expand.groupForm && 
         <GroupForm 
           addGroup={addGroup}
-          exitForm={() => setShowGroupForm(false)}
-        /> 
-      }
-      {selectedGroup && 
-        <Tasks 
-          group={selectedGroup}
+          exitForm={() => setExpand({ groupForm: false })}
         /> 
       }
     </div>

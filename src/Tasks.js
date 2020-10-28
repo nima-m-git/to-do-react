@@ -14,15 +14,13 @@ function Tasks({ group, }) {
 
     useEffect(() => {
         localStorage.setItem(group, JSON.stringify({
-            ...JSON.parse(localStorage.getItem(group)), 
             tasks,
         }));
     })
 
     const addTask = (task) => {
-        const title = task.title;
         setTasks(draft => {
-            draft[title] = task;
+            draft[task.title] = task;
         })
     }
 
