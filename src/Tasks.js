@@ -4,19 +4,13 @@ import { useState, useEffect } from 'react';
 import { TaskForm } from './Forms';
 
 
-function Tasks({ group, }) {
-    const [tasks, setTasks] = useImmer(JSON.parse(localStorage.getItem(group)).tasks || {});
+function Tasks({ group, updateGroupTasks }) {
+    const [tasks, setTasks] = useImmer(group.tasks || {});
     const [taskForm, setTaskForm] = useState({
         show: false,
         action: null,
         selected: null,
     });
-
-    useEffect(() => {
-        localStorage.setItem(group, JSON.stringify({
-            tasks,
-        }));
-    })
 
     const addTask = (task) => {
         setTasks(draft => {
@@ -26,23 +20,26 @@ function Tasks({ group, }) {
 
     const updateTask = (task) => {
         setTasks(draft => {
-            delete draft[taskForm.selected.title];
+            delete draft[taskForm.selected.title]; 
             draft[task.title] = task;
         })
     }
 
-    const removeTask = (task) => Object.keys(tasks).reduce((object, key) => {
-        if (key !== task) {
-            object[key] = tasks[key]
-        }
-        return object
-    }, {})
+    const removeTask = (taskName) => {
+        setTasks(draft => {
+            delete draft[taskName];
+        })
+    }
 
     const completeTaskToggle = (task) => {
         setTasks(draft => {
             draft[task].completed = (tasks[task].completed) ? false : true;
         })
     }
+
+    useEffect(() => {
+        updateGroupTasks({ group, tasks });
+    }, [tasks, updateGroupTasks, group])
  
     return (
         <div>
@@ -64,7 +61,7 @@ function Tasks({ group, }) {
                                     setTaskForm({
                                         show: true,
                                         action: 'update',
-                                        selected: JSON.parse(localStorage.getItem(group)).tasks[taskName],
+                                        selected: tasks[taskName],
                                     });
                                 }
                                 }>{taskName}</p>

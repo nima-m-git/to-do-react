@@ -3,28 +3,52 @@ import { useState, useEffect } from 'react';
 
 import { GroupForm } from './Forms';
 import Tasks from './Tasks';
+import { useImmer } from 'use-immer';
 
 
 function Groups() {
-  const groups = () => Object.keys(localStorage);
+  const [groups, setGroups] = useImmer(JSON.parse(localStorage.getItem('Groups')) || {});
   const [expand, setExpand] = useState({
     groupForm: false,
     selectedGroup: null,
   })
 
-  const addGroup = (name) => localStorage.setItem(name, JSON.stringify(
-    { 
-      name,
-      tasks: {} 
-    }));
+  // const addGroup = (name) => localStorage.setItem(name, JSON.stringify(
+  //   { 
+  //     name,
+  //     tasks: {} 
+  //   }));
+  
+  const addGroup = (name) => {
+    setGroups(draft => {
+      draft[name] = {
+        name,
+        tasks: {}
+      };
+    })
+  }
 
-  const removeGroup = (name) => localStorage.removeItem(name);
+  // const removeGroup = (name) => localStorage.removeItem(name);
+
+  const removeGroup = (name) => {
+    setGroups(draft => {
+      delete draft[name];
+    })
+  } 
+
+  const updateGroupTasks = ({ group, tasks }) => {
+    setGroups(draft => {
+      draft[group.name].tasks = tasks;
+    })
+  }
 
   useEffect(() => {
     // Initialize General Group if empty
-    if (groups().length === 0) {
+    if (Object.keys(groups).length === 0) {
       addGroup('General');
     }
+
+    localStorage.setItem('Groups', JSON.stringify(groups))
   })
 
   return (
@@ -39,13 +63,13 @@ function Groups() {
           /> 
         }
         <ul>
-          {groups().map((group) => {
+          {Object.keys(groups).map((groupName) => {
             return (
-              <li key={group} className='group'>
-                <button className='remove-btn' onClick={() => removeGroup(group)}>x</button>
-                <p className='title' onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === group) ? null : group })}>{group}</p>
-                {expand.selectedGroup === group && 
-                  <Tasks group={group} />
+              <li key={groupName} className='group'>
+                <button className='remove-btn' onClick={() => removeGroup(groupName)}>x</button>
+                <p className='title' onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === groupName) ? null : groupName })}>{groupName}</p>
+                {expand.selectedGroup === groupName && 
+                  <Tasks group={groups[groupName]} updateGroupTasks={updateGroupTasks}/>
                 }
               </li>
             )
