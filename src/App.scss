@@ -1,12 +1,13 @@
 header {
     display: flex;
     justify-content: center;
+    padding-top: 10%;
 }
 
 .groups {
     position: absolute;
-    top: 30vh;
-    left: 5vw;
+    // top: 30vh;
+    // left: 5vw;
     background: rgba(194, 243, 243, 0.363);
 
     .group {

@@ -53,15 +53,15 @@ function Tasks({ group, updateGroupTasks }) {
                 }
                 }>+</button>
                 <ul>
-                    {Object.keys(tasks).map((taskName) => {
+                    {Object.entries(tasks).map(([taskName, taskObj]) => {
                         return (
                             <li key={taskName} className='task'>
                                 <button onClick={() => setTasks(draft => draft = removeTask(taskName))}>x</button>
-                                <p className={(tasks[taskName].completed) ? 'title crossed' : 'title'} onClick={() => {
+                                <p className={(taskObj.completed) ? 'title crossed' : 'title'} onClick={() => {
                                     setTaskForm({
                                         show: true,
                                         action: 'update',
-                                        selected: tasks[taskName],
+                                        selected: taskObj,
                                     });
                                 }
                                 }>{taskName}</p>

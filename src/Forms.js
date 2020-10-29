@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+
 function GroupForm ({ addGroup, exitForm, }) {
     const [title, setTitle] = useState('');
     const onSubmit = () => {

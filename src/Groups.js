@@ -12,12 +12,6 @@ function Groups() {
     groupForm: false,
     selectedGroup: null,
   })
-
-  // const addGroup = (name) => localStorage.setItem(name, JSON.stringify(
-  //   { 
-  //     name,
-  //     tasks: {} 
-  //   }));
   
   const addGroup = (name) => {
     setGroups(draft => {
@@ -27,8 +21,6 @@ function Groups() {
       };
     })
   }
-
-  // const removeGroup = (name) => localStorage.removeItem(name);
 
   const removeGroup = (name) => {
     setGroups(draft => {
@@ -48,7 +40,7 @@ function Groups() {
       addGroup('General');
     }
 
-    localStorage.setItem('Groups', JSON.stringify(groups))
+    localStorage.setItem('Groups', JSON.stringify(groups));
   })
 
   return (
@@ -63,13 +55,13 @@ function Groups() {
           /> 
         }
         <ul>
-          {Object.keys(groups).map((groupName) => {
+          {Object.entries(groups).map(([groupName, groupObj]) => {
             return (
               <li key={groupName} className='group'>
                 <button className='remove-btn' onClick={() => removeGroup(groupName)}>x</button>
                 <p className='title' onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === groupName) ? null : groupName })}>{groupName}</p>
                 {expand.selectedGroup === groupName && 
-                  <Tasks group={groups[groupName]} updateGroupTasks={updateGroupTasks}/>
+                  <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
                 }
               </li>
             )
