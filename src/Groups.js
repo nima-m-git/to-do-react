@@ -46,8 +46,10 @@ function Groups() {
   return (
     <div>
       <div className='groups'>
-        <h2>Groups</h2>
-        <button onClick={() => setExpand({ groupForm: true })}>+</button>
+        <div className='head-bar'>
+          <h2>Groups</h2>
+          <button className='new-btn' onClick={() => setExpand({ groupForm: true })}>+</button>
+        </div>
         {expand.groupForm && 
           <GroupForm 
             addGroup={addGroup}

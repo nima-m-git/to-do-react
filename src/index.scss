@@ -19,7 +19,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: rgba(30, 30, 211, 0.301);
+
+  background: linear-gradient(rgba(30, 108, 211, 0.301), rgba(167, 167, 209, 0.301));
+  background-repeat: no-repeat;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: rgba(19, 44, 126, 0.849);
+}
+
+html {
+  height: 100%;
 }
 
 code {

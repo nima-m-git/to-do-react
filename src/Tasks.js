@@ -44,19 +44,22 @@ function Tasks({ group, updateGroupTasks }) {
     return (
         <div>
             <div className='tasks'>
-                <p>Tasks</p>
-                <button onClick={() => {
-                    setTaskForm({
-                        show: true,
-                        action: 'new'
-                    });
-                }
-                }>+</button>
+                <div className='head-bar'>
+                    <p>Tasks</p>
+                    <button className='new-btn' 
+                        onClick={() => {
+                            setTaskForm({
+                                show: true,
+                                action: 'new'
+                            });
+                        }
+                    }>+</button>
+                </div>
                 <ul>
                     {Object.entries(tasks).map(([taskName, taskObj]) => {
                         return (
                             <li key={taskName} className='task'>
-                                <button onClick={() => setTasks(draft => draft = removeTask(taskName))}>x</button>
+                                <button className='remove-btn' onClick={() => setTasks(draft => draft = removeTask(taskName))}>x</button>
                                 <p className={(taskObj.completed) ? 'title crossed' : 'title'} onClick={() => {
                                     setTaskForm({
                                         show: true,
@@ -65,7 +68,7 @@ function Tasks({ group, updateGroupTasks }) {
                                     });
                                 }
                                 }>{taskName}</p>
-                                <button onClick={() => completeTaskToggle(taskName)}>&#10003;</button>
+                                <button className='complete-btn' onClick={() => completeTaskToggle(taskName)}>&#10003;</button>
                             </li>
                         )
                     })}
