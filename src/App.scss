@@ -24,7 +24,7 @@ header {
     }
 
     .group > * {
-        margin: 0 10px;
+        margin: 0 1em;
         padding: 15px 0;
     }
 
@@ -45,22 +45,15 @@ header {
 }
 
 .tasks {
-    border: 1px solid rgba(108, 172, 172, 0.233);
     border-radius: $radius;
     padding: 5px;
     font-size: 18px;
+    margin: 0 1em;
 
     .task {
-        border: 1px solid rgba(128, 128, 128, 0.11);
-        border-radius: $radius;
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-
-        .title {
-            padding: 10px;
-            align-self: flex-end;
-        }
+        align-items: center;
     }
 }
 
@@ -71,31 +64,43 @@ header {
 
 form {
     padding: 10px 0;
+    display: flex;
+    align-items: flex-start;
+
+    label {
+        display: flex;
+    }
 }
 
 button {
+    font-size: 1.2em;
     width: 20px;
-    background: rgb(211, 222, 226);
-    border: 1px solid rgba(100, 109, 121, 0.555);
+    background: rgba(211, 222, 226, 0);
+    border: 0.5px solid rgba(255, 255, 255, 0);
     border-radius: $radius;
-    color: inherit
+    color: inherit;
+    margin: 0 0.4em;
 }
 
 button:hover, input[type='submit']:hover {
-    background: rgb(128, 171, 173);
+    color: rgba(106, 181, 211, 0.849);
     cursor: pointer;
 }
 
-input {
+input, textarea {
     padding: 3px 5px;
     font-family: inherit;
     color: inherit;
     font-size: 16px;
     margin: 0 2px;
+    border: 0.5px solid rgba(128, 128, 128, 0.5);
+    border-radius: $radius;
+    background: rgba(255, 255, 255, 0.616);
 }
 
 input[type='submit'] {
     background: rgb(211, 222, 226);
-    border: 1px solid grey;
+    border: 0.5px solid grey;
     border-radius: $radius;
+    padding: 0.3em 0.6em;
 }
