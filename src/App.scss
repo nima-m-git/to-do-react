@@ -17,7 +17,7 @@ header {
 
     .group {
         display: flex;
-        border: 1px solid rgba(47, 53, 37, 0.363);
+        border: 0.5px solid rgba(99, 124, 119, 0.548);
         border-radius: $radius;
         align-items: center;
         background: rgba(223, 248, 255, 0.479);
@@ -37,11 +37,11 @@ header {
         text-decoration: underline;
         cursor: pointer;
     }
+}
 
-    .head-bar {
-        display: flex;
-        justify-content: space-between;
-    }
+.head-bar {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .tasks {
@@ -52,7 +52,7 @@ header {
 
     .task {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
     }
 }
