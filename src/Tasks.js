@@ -47,7 +47,7 @@ function Tasks({ group, updateGroupTasks }) {
     }, [tasks, updateGroupTasks, group])
  
     return (
-        <div>
+        <div className='tasksContainer'>
             <div className='tasks'>
                 <div className='head-bar'>
                     <p style={{ 'text-decoration': 'underline' }}>Tasks</p>

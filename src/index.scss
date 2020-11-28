@@ -25,8 +25,9 @@ body {
   color: rgba(19, 44, 126, 0.849);
 }
 
-html {
-  height: 100%;
+html, body {
+  min-height: 100%;
+  min-width: 100%;
 }
 
 code {

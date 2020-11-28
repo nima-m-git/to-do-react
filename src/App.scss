@@ -9,7 +9,9 @@ header {
 }
 
 .groups {
-    margin: 5vh 5vw;
+    margin: 5vh auto;
+    max-width: 90%;
+    width: fit-content;
     background: linear-gradient(rgba(194, 243, 243, 0.363), rgba(57, 99, 236, 0.363));
     border: 3px solid rgba(115, 134, 196, 0.452);
     border-radius: $radius;
@@ -44,16 +46,28 @@ header {
     justify-content: flex-start;
 }
 
-.tasks {
-    border-radius: $radius;
-    padding: 5px;
-    font-size: 18px;
-    margin: 0 1em;
+.tasksContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
 
-    .task {
+    .tasks {
+        border-radius: $radius;
+        padding: 5px;
+        font-size: 18px;
+        margin: 0 1em;
+    
+        .task {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+
+    .taskForm {
+        max-width: 100%;
         display: flex;
-        justify-content: flex-start;
-        align-items: center;
+        flex-direction: column;
     }
 }
 
@@ -87,6 +101,11 @@ button:hover, input[type='submit']:hover {
     cursor: pointer;
 }
 
+label {
+    max-width: 90%;
+    margin: 0.5em 0;
+}
+
 input, textarea {
     padding: 3px 5px;
     font-family: inherit;
@@ -96,6 +115,7 @@ input, textarea {
     border: 0.5px solid rgba(128, 128, 128, 0.5);
     border-radius: $radius;
     background: rgba(255, 255, 255, 0.616);
+    max-width: 100%;
 }
 
 input[type='submit'] {

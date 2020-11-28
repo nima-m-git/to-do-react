@@ -39,12 +39,12 @@ function TaskForm ({ action, task, exitForm, }) {
 
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className='taskForm'>
             <label>Title:
                 <input type='text' onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })} value={taskForm.title || ''}/>
             </label>
             <label>Note:
-                <textarea rows={3} cols={25} onChange={(e) => setTaskForm({ ...taskForm, note: e.target.value })} value={taskForm.note || ''}/>
+                <textarea rows={3} onChange={(e) => setTaskForm({ ...taskForm, note: e.target.value })} value={taskForm.note || ''}/>
             </label>
             <input type='submit' value='Submit'/>
         </form>
