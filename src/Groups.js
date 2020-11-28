@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { GroupForm } from './Forms';
 import Tasks from './Tasks';
+import { ConfirmDelete } from './ConfirmDelete';
 import { useImmer } from 'use-immer';
 
 
@@ -11,7 +12,11 @@ function Groups() {
   const [expand, setExpand] = useState({
     groupForm: false,
     selectedGroup: null,
-  })
+  });
+  const [removeBox, setRemoveBox] = useState({
+    show: false,
+    item: null,
+  });
   
   const addGroup = (name) => {
     setGroups(draft => {
@@ -39,7 +44,6 @@ function Groups() {
     if (Object.keys(groups).length === 0) {
       addGroup('General');
     }
-
     localStorage.setItem('Groups', JSON.stringify(groups));
   })
 
@@ -60,10 +64,17 @@ function Groups() {
           {Object.entries(groups).map(([groupName, groupObj]) => {
             return (
               <li key={groupName} className='group'>
-                <button className='remove-btn' onClick={() => removeGroup(groupName)}>x</button>
+                <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: groupName, })}>x</button>
                 <p className='title' onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === groupName) ? null : groupName })}>{groupName}</p>
                 {expand.selectedGroup === groupName && 
                   <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
+                }
+                {removeBox.show && (removeBox.item === groupName) &&
+                  <ConfirmDelete 
+                    deleteFunc={removeGroup}
+                    deleteItem={removeBox.item}
+                    closeCallback={() => setRemoveBox({ show: false, })}
+                  />
                 }
               </li>
             )

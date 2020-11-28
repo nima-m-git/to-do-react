@@ -2,6 +2,7 @@ import { useImmer } from 'use-immer';
 import { useState, useEffect } from 'react';
 
 import { TaskForm } from './Forms';
+import { ConfirmDelete } from './ConfirmDelete';
 
 
 function Tasks({ group, updateGroupTasks }) {
@@ -10,6 +11,10 @@ function Tasks({ group, updateGroupTasks }) {
         show: false,
         action: null,
         selected: null,
+    });
+    const [removeBox, setRemoveBox] = useState({
+        show: false,
+        item: null,
     });
 
     const addTask = (task) => {
@@ -60,7 +65,7 @@ function Tasks({ group, updateGroupTasks }) {
                         return (
                             <li key={taskName}>
                                 <div className='task'>
-                                    <button className='remove-btn' onClick={() => setTasks(draft => draft = removeTask(taskName))}>x</button>
+                                    <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: taskName, })}>x</button>
                                     <p className={(taskObj.completed) ? 'title crossed' : 'title'} onClick={() => {
                                         setTaskForm({
                                             show: true,
@@ -71,6 +76,13 @@ function Tasks({ group, updateGroupTasks }) {
                                     }>{taskName}</p>
                                     <button className='complete-btn' onClick={() => completeTaskToggle(taskName)}>&#10003;</button>
                                 </div>
+                                {removeBox.show && (removeBox.item === taskName) &&
+                                    <ConfirmDelete 
+                                        deleteFunc={removeTask}
+                                        deleteItem={removeBox.item}
+                                        closeCallback={() => setRemoveBox({ show: false, })}
+                                    />
+                                }
                             </li>
                         )
                     })}
