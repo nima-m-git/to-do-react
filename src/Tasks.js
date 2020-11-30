@@ -4,6 +4,23 @@ import { useState, useEffect } from 'react';
 import { TaskForm } from './Forms';
 import { ConfirmDelete } from './ConfirmDelete';
 
+import { motion, AnimatePresence } from 'framer-motion';
+
+const animationProps = {
+    initial: {
+        opacity: 0,
+        translateY: 40,
+    },
+    animate: {
+        opacity: 1,
+        translateY: 0,
+    },
+    exit: {
+        opacity: 0,
+        translateY: 40,
+    }
+}
+
 
 function Tasks({ group, updateGroupTasks }) {
     const [tasks, setTasks] = useImmer(group.tasks || {});
@@ -60,33 +77,41 @@ function Tasks({ group, updateGroupTasks }) {
                         }
                     }>+</button>
                 </div>
-                <ul>
-                    {Object.entries(tasks).map(([taskName, taskObj]) => {
-                        return (
-                            <li key={taskName}>
-                                <div className='task'>
-                                    <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: taskName, })}>x</button>
-                                    <p className={(taskObj.completed) ? 'title crossed' : 'title'} onClick={() => {
-                                        setTaskForm({
-                                            show: true,
-                                            action: 'update',
-                                            selected: taskObj,
-                                        });
+                <AnimatePresence initial={true}>
+                    <ul>
+                        {Object.entries(tasks).map(([taskName, taskObj], index) => (
+                                <motion.li 
+                                    key={taskName}
+                                    variants={animationProps}
+                                    initial='initial'
+                                    animate='animate'
+                                    exit='exit'
+                                    transition={{ delay: 0.1*index }}
+                                >
+                                    <div className='task'>
+                                        <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: taskName, })}>x</button>
+                                        <p className={(taskObj.completed) ? 'title crossed' : 'title'} onClick={() => {
+                                            setTaskForm({
+                                                show: true,
+                                                action: 'update',
+                                                selected: taskObj,
+                                            });
+                                        }
+                                        }>{taskName}</p>
+                                        <button className='complete-btn' onClick={() => completeTaskToggle(taskName)}>&#10003;</button>
+                                    </div>
+                                    {removeBox.show && (removeBox.item === taskName) &&
+                                        <ConfirmDelete 
+                                            deleteFunc={removeTask}
+                                            deleteItem={removeBox.item}
+                                            closeCallback={() => setRemoveBox({ show: false, })}
+                                        />
                                     }
-                                    }>{taskName}</p>
-                                    <button className='complete-btn' onClick={() => completeTaskToggle(taskName)}>&#10003;</button>
-                                </div>
-                                {removeBox.show && (removeBox.item === taskName) &&
-                                    <ConfirmDelete 
-                                        deleteFunc={removeTask}
-                                        deleteItem={removeBox.item}
-                                        closeCallback={() => setRemoveBox({ show: false, })}
-                                    />
-                                }
-                            </li>
-                        )
-                    })}
-                </ul>
+                                </motion.li>
+                            )
+                        )}
+                    </ul>
+                </AnimatePresence>
             </div>
             {taskForm.show && 
                 <TaskForm 
