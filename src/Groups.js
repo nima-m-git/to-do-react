@@ -65,7 +65,15 @@ function Groups() {
             return (
               <li key={groupName} className='group'>
                 <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: groupName, })}>x</button>
-                <p className='title' onClick={() => setExpand({ selectedGroup: (expand.selectedGroup === groupName) ? null : groupName })}>{groupName}</p>
+                <p className='title'>{groupName}</p>
+                <div className='taskBtn'>
+                  {expand.selectedGroup === groupName 
+                    &&
+                      <button className='minimize' onClick={() => setExpand({ selectedGroup: null })}>-</button>
+                    ||
+                      <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>Tasks</button>
+                  }
+                </div>
                 {expand.selectedGroup === groupName && 
                   <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
                 }
