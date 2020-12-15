@@ -68,9 +68,9 @@ function Groups() {
                 <p className='title'>{groupName}</p>
                 <div className='taskBtn'>
                   {expand.selectedGroup === groupName 
-                    &&
+                    ?
                       <button className='minimize' onClick={() => setExpand({ selectedGroup: null })}>-</button>
-                    ||
+                    :
                       <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>Tasks</button>
                   }
                 </div>
