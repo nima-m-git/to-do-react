@@ -1,8 +1,8 @@
 $radius: 5px;
 
 %button {
-    background: rgba(211, 222, 226, 0.452);
-    border: 0.3px solid rgba(128, 128, 128, 0.288);
+    background: rgba(149, 177, 190, 0.1);
+    border: 0.8px solid rgba(100, 70, 182, 0.856);
     border-radius: $radius;
     padding: 0.3em 0.6em;
     width: fit-content;
@@ -10,7 +10,7 @@ $radius: 5px;
 }
 
 %button-hover {
-    color: rgba(76, 137, 161, 0.849);
+    // color: rgba(170, 209, 224, 0.849);
     background: rgba(201, 212, 216, 0.781);
     cursor: pointer;
 }
@@ -112,7 +112,8 @@ header {
         max-width: 100%;
         display: flex;
         flex-direction: column;
-        border: 1px solid rgba(115, 134, 196, 0.452);
+        border: 0.5px solid rgba(115, 134, 196, 0.4);
+        box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.2);
         border-radius: $radius;
         background: rgba(255, 255, 255, 0.199);
     }

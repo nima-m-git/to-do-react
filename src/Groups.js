@@ -5,6 +5,7 @@ import { GroupForm } from './Forms';
 import Tasks from './Tasks';
 import { ConfirmDelete } from './ConfirmDelete';
 import { useImmer } from 'use-immer';
+import { AnimatePresence } from 'framer-motion';
 
 
 function Groups() {
@@ -74,9 +75,11 @@ function Groups() {
                       <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>Tasks</button>
                   }
                 </div>
-                {expand.selectedGroup === groupName && 
-                  <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
-                }
+                <AnimatePresence>
+                  {expand.selectedGroup === groupName && 
+                    <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
+                  }
+                </AnimatePresence>
                 {removeBox.show && (removeBox.item === groupName) &&
                   <ConfirmDelete 
                     deleteFunc={removeGroup}
