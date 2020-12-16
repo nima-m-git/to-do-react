@@ -52,18 +52,15 @@ header {
             button {
                 @extend %button;
                 font-size: 1em;
-            }
-
-            button:hover {
-                @extend %button-hover;
-            }
-
-            .minimize {
                 position: absolute;
                 margin: 0.4em 0.4em;
                 padding: 0 0.4em;
                 top: 0;
                 right: 0;
+            }
+
+            button:hover {
+                @extend %button-hover;
             }
         }
     }
