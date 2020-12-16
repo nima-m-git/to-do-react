@@ -4,22 +4,37 @@ import { useState, useEffect } from 'react';
 import { TaskForm } from './Forms';
 import { ConfirmDelete } from './ConfirmDelete';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const animationProps = {
-    initial: {
+const item = {
+    closed: {
         opacity: 0,
         translateY: 40,
     },
-    animate: {
+    open: {
         opacity: 1,
         translateY: 0,
     },
-    exit: {
-        opacity: 0,
-        translateY: 40,
-    }
 }
+
+const variants = {
+    open: {
+        opacity: 1,
+        transition: { 
+            staggerChildren: 0.2, 
+            delayChildren: 0.1,
+
+        }
+    },
+    closed: {
+        opacity: 0,
+        transition: { 
+            staggerChildren: 0.2, 
+            staggerDirection: -1 
+        }
+    }
+};
+
 
 
 function Tasks({ group, updateGroupTasks }) {
@@ -77,15 +92,17 @@ function Tasks({ group, updateGroupTasks }) {
                         }
                     }>+</button>
                 </div>
-                <ul>
+                <motion.ul
+                    variants={variants}
+                    initial='closed'
+                    animate='open'
+                    exit='closed'
+                    key='list'
+                >
                     {Object.entries(tasks).map(([taskName, taskObj], index) => (
                             <motion.li 
                                 key={taskName}
-                                variants={animationProps}
-                                initial='initial'
-                                animate='animate'
-                                exit='exit'
-                                transition={{ delay: 0.1*index }}
+                                variants={item}
                             >
                                 <div className='task'>
                                     <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: taskName, })}>x</button>
@@ -109,7 +126,7 @@ function Tasks({ group, updateGroupTasks }) {
                             </motion.li>
                         )
                     )}
-                </ul>
+                </motion.ul>
             </div>
             {taskForm.show && 
                 <TaskForm 
