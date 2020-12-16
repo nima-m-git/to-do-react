@@ -1,17 +1,23 @@
 $radius: 5px;
 
 %button {
-    background: rgba(149, 177, 190, 0.1);
-    border: 0.8px solid rgba(100, 70, 182, 0.856);
-    border-radius: $radius;
+    background: rgba(24, 209, 172, 0.8);
+    color: white;
+    box-shadow: 0 0 5px -3px;
+    border-radius: 7px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     padding: 0.3em 0.6em;
     width: fit-content;
     transition: background-color 0.3s, color 0.3s;
 }
 
 %button-hover {
-    // color: rgba(170, 209, 224, 0.849);
-    background: rgba(201, 212, 216, 0.781);
+    background: rgba(37, 166, 206, 0.8);
+    cursor: pointer;
+}
+
+%icon-hover {
+    color: rgba(115, 168, 157, 0.849);
     cursor: pointer;
 }
 
@@ -25,8 +31,7 @@ header {
 
 .groups {
     margin: 5vh auto;
-    max-width: 90%;
-    width: 500px;
+    max-width: 360px;
     background: rgba(253, 253, 253, 0.589);
     border: 1px solid rgba(115, 134, 196, 0.452);
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.3);
@@ -34,12 +39,11 @@ header {
     padding: 1.2em;
 
     .group {
-        display: flex;
         position: relative;
+        list-style: none;
+
         border: 0.2px solid rgba(63, 151, 134, 0.2);
         border-radius: $radius;
-        align-items: center;
-        justify-content: space-between;
         background: rgba(223, 248, 255, 0.479);
         padding: 0.5em;
         box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
@@ -50,22 +54,20 @@ header {
             justify-content: flex-end;
             
             button {
-                @extend %button;
-                font-size: 1em;
+                font-size: 28px;
                 position: absolute;
-                margin: 0.4em 0.4em;
-                padding: 0 0.4em;
                 top: 0;
                 right: 0;
             }
 
             button:hover {
-                @extend %button-hover;
+                // @extend %button-hover;
             }
         }
     }
 
-    .group > .title {
+    .groupHeader {
+        display: flex;
         font-size: 1.5em;
         font-weight: 600;
     }
@@ -87,11 +89,12 @@ header {
 }
 
 .tasksContainer {
-    flex-basis: 50%;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
-    margin-top: 1em;
+    max-width: 90%;
+    margin: 0 auto;
+    position: relative;
+    left: 10px;
 
     .tasks {
         border-radius: $radius;
@@ -106,13 +109,7 @@ header {
     }
 
     .taskForm {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        border: 0.5px solid rgba(115, 134, 196, 0.4);
-        box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.2);
-        border-radius: $radius;
-        background: rgba(255, 255, 255, 0.199);
+        width: 100%;
     }
 }
 
@@ -122,9 +119,18 @@ header {
 }
 
 form {
-    padding: 10px 0;
+
     display: flex;
     align-items: center;
+    flex-direction: column;
+
+    width: fit-content;
+    margin: 0 auto;
+    padding: 10px 0;
+    border: 0.5px solid rgba(115, 134, 196, 0.4);
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.2);
+    border-radius: $radius;
+    background: rgba(255, 255, 255, 0.199);
 
     label {
         display: flex;
@@ -157,7 +163,7 @@ button {
 }
 
 button:hover {
-    @extend %button-hover;
+    @extend %icon-hover;
     background: none;
 }
 

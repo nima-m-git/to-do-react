@@ -21,7 +21,7 @@ const variants = {
     open: {
         opacity: 1,
         transition: { 
-            staggerChildren: 0.2, 
+            staggerChildren: 0.15, 
             delayChildren: 0.1,
 
         }
@@ -29,8 +29,9 @@ const variants = {
     closed: {
         opacity: 0,
         transition: { 
-            staggerChildren: 0.2, 
-            staggerDirection: -1 
+            staggerChildren: 0.15, 
+            staggerDirection: -1,
+            wait: 'afterChildren' 
         }
     }
 };
@@ -47,11 +48,12 @@ const containerVariants = {
         scale: 0,
         transition: {
             delay: 0.3,
+            wait: 'afterChildren'
         }
     }
 }
 
-const taskFormVariants = {
+const formVariants = {
     open : {
         scale: 1,
         opacity: 1,
@@ -128,13 +130,14 @@ function Tasks({ group, updateGroupTasks }) {
                     }>{(taskForm.show) ? '-' : '+'}</button>
                 </div>
 
-                <AnimatePresence>
+                <AnimatePresence exitBeforeEnter>
                     {taskForm.show && 
                         <motion.div
-                            variants={taskFormVariants}
+                            variants={formVariants}
                             initial='closed'
                             animate='open'
                             exit='closed'
+                            key='form'
                         >
                             <TaskForm 
                                 action={(taskForm.action === 'new') ? addTask : updateTask} 
@@ -144,8 +147,7 @@ function Tasks({ group, updateGroupTasks }) {
                         </motion.div>
                     }
                 </AnimatePresence>
-
-
+                    
                 <motion.ul
                     variants={variants}
                     initial='closed'
@@ -153,7 +155,7 @@ function Tasks({ group, updateGroupTasks }) {
                     exit='closed'
                     key='list'
                 >
-                    {Object.entries(tasks).map(([taskName, taskObj], index) => (
+                    {Object.entries(tasks).map(([taskName, taskObj]) => (
                             <motion.li 
                                 key={taskName}
                                 variants={item}

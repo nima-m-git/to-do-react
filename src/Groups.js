@@ -5,7 +5,21 @@ import { GroupForm } from './Forms';
 import Tasks from './Tasks';
 import { ConfirmDelete } from './ConfirmDelete';
 import { useImmer } from 'use-immer';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const formVariants = {
+  open : {
+      scale: 1,
+      opacity: 1,
+  },
+  closed: {
+      opacity: 0,
+      originX: 0.8,
+      originY: 0,
+      scale: 0,
+  }
+}
+
 
 
 function Groups() {
@@ -53,29 +67,41 @@ function Groups() {
       <div className='groups'>
         <div className='head-bar'>
           <h2>Groups</h2>
-          <button className='new-btn' onClick={() => setExpand({ groupForm: true })}>+</button>
+  <button className='new-btn' onClick={() => setExpand({ groupForm: (expand.groupForm) ? false : true })}>{(expand.groupForm) ? '-' : '+'}</button>
         </div>
-        {expand.groupForm && 
-          <GroupForm 
-            addGroup={addGroup}
-            exitForm={() => setExpand({ groupForm: false })}
-          /> 
-        }
+        <AnimatePresence>
+          {expand.groupForm &&
+            <motion.div
+              variants={formVariants}
+              initial='closed'
+              animate='open'
+              exit='closed'
+              key='form'
+            >
+              <GroupForm 
+                addGroup={addGroup}
+                exitForm={() => setExpand({ groupForm: false })}
+              /> 
+            </motion.div> 
+          }
+        </AnimatePresence>
         <ul>
           {Object.entries(groups).map(([groupName, groupObj]) => {
             return (
               <li key={groupName} className='group'>
-                <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: groupName, })}>x</button>
-                <p className='title'>{groupName}</p>
+                <div className='groupHeader'>
+                  <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: groupName, })}>x</button>
+                  <p className='title'>{groupName}</p>
+                </div>
                 <div className='taskBtn'>
                   {expand.selectedGroup === groupName 
                     ?
                       <button className='minimize' onClick={() => setExpand({ selectedGroup: null })}>-</button>
                     :
-                      <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>Tasks</button>
+                      <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>+</button>
                   }
                 </div>
-                <AnimatePresence>
+                <AnimatePresence exitBeforeEnter>
                   {expand.selectedGroup === groupName && 
                     <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
                   }
