@@ -65,11 +65,6 @@ header {
         }
     }
 
-    // .group > * {
-    //     margin: 0 1em;
-    //     padding: 15px 0;
-    // }
-
     .group > .title {
         font-size: 1.5em;
         font-weight: 600;
@@ -83,8 +78,12 @@ header {
 
 .head-bar {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+
+    button {
+        font-size: 32px;
+    }
 }
 
 .tasksContainer {
@@ -92,6 +91,7 @@ header {
     display: flex;
     flex-direction: column;
     max-width: 100%;
+    margin-top: 1em;
 
     .tasks {
         border-radius: $radius;

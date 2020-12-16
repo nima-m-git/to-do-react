@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { TaskForm } from './Forms';
 import { ConfirmDelete } from './ConfirmDelete';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const item = {
     closed: {
@@ -35,6 +35,34 @@ const variants = {
     }
 };
 
+const containerVariants = {
+    open : {
+        scale: 1,
+        opacity: 1,
+    },
+    closed: {
+        opacity: 0,
+        originX: 0.8,
+        originY: 0,
+        scale: 0,
+        transition: {
+            delay: 0.3,
+        }
+    }
+}
+
+const taskFormVariants = {
+    open : {
+        scale: 1,
+        opacity: 1,
+    },
+    closed: {
+        opacity: 0,
+        originX: 0.8,
+        originY: 0,
+        scale: 0,
+    }
+}
 
 
 function Tasks({ group, updateGroupTasks }) {
@@ -79,19 +107,45 @@ function Tasks({ group, updateGroupTasks }) {
     }, [tasks, updateGroupTasks, group])
  
     return (
-        <div className='tasksContainer'>
+        <motion.div 
+            className='tasksContainer'
+            variants={containerVariants}
+            initial='closed'
+            animate='open'
+            exit='closed'
+            key='container'
+        >
             <div className='tasks'>
                 <div className='head-bar'>
                     <p style={{ 'text-decoration': 'underline' }}>Tasks</p>
                     <button className='new-btn' 
                         onClick={() => {
                             setTaskForm({
-                                show: true,
+                                show: (taskForm.show) ? false : true,
                                 action: 'new'
                             });
                         }
-                    }>+</button>
+                    }>{(taskForm.show) ? '-' : '+'}</button>
                 </div>
+
+                <AnimatePresence>
+                    {taskForm.show && 
+                        <motion.div
+                            variants={taskFormVariants}
+                            initial='closed'
+                            animate='open'
+                            exit='closed'
+                        >
+                            <TaskForm 
+                                action={(taskForm.action === 'new') ? addTask : updateTask} 
+                                task={taskForm.selected} 
+                                exitForm={() => setTaskForm({ show: false })}
+                            /> 
+                        </motion.div>
+                    }
+                </AnimatePresence>
+
+
                 <motion.ul
                     variants={variants}
                     initial='closed'
@@ -128,14 +182,7 @@ function Tasks({ group, updateGroupTasks }) {
                     )}
                 </motion.ul>
             </div>
-            {taskForm.show && 
-                <TaskForm 
-                    action={(taskForm.action === 'new') ? addTask : updateTask} 
-                    task={taskForm.selected} 
-                    exitForm={() => setTaskForm({ show: false })}
-                /> 
-            }
-        </div>
+        </motion.div>
     )
 }
 
