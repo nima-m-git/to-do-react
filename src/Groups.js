@@ -21,7 +21,6 @@ const formVariants = {
 }
 
 
-
 function Groups() {
   const [groups, setGroups] = useImmer(JSON.parse(localStorage.getItem('Groups')) || {});
   const [expand, setExpand] = useState({
@@ -67,7 +66,7 @@ function Groups() {
       <div className='groups'>
         <div className='head-bar'>
           <h2>Groups</h2>
-  <button className='new-btn' onClick={() => setExpand({ groupForm: (expand.groupForm) ? false : true })}>{(expand.groupForm) ? '-' : '+'}</button>
+          <button className='new-btn' onClick={() => setExpand({ groupForm: (expand.groupForm) ? false : true })}>{(expand.groupForm) ? '-' : '+'}</button>
         </div>
         <AnimatePresence>
           {expand.groupForm &&
@@ -91,7 +90,8 @@ function Groups() {
               <li key={groupName} className='group'>
                 <div className='groupHeader'>
                   <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: groupName, })}>x</button>
-                  <p className='title'>{groupName}</p>
+                  <p className='title'>{groupName} <span className='taskCount'>{`(${Object.keys(groupObj.tasks).length})`}</span></p>
+                  
                 </div>
                 <div className='taskBtn'>
                   {expand.selectedGroup === groupName 
@@ -101,11 +101,13 @@ function Groups() {
                       <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>+</button>
                   }
                 </div>
+
                 <AnimatePresence exitBeforeEnter>
                   {expand.selectedGroup === groupName && 
                     <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
                   }
                 </AnimatePresence>
+
                 {removeBox.show && (removeBox.item === groupName) &&
                   <ConfirmDelete 
                     deleteFunc={removeGroup}
