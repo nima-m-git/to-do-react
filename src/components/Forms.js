@@ -14,6 +14,19 @@ const formVariants = {
     }
 };
 
+const FormContainer = (props) => (
+    <motion.div
+        layout
+        transition={{ fade: 'easeIn' }}
+        variants={formVariants}
+        initial='closed'
+        animate='open'
+        exit='closed'
+        key='form'
+    >
+        {props.children}
+    </motion.div>
+)
 
 function GroupForm ({ addGroup, exitForm, }) {
     const [title, setTitle] = useState('');
@@ -23,22 +36,14 @@ function GroupForm ({ addGroup, exitForm, }) {
     };
 
     return (
-        <motion.div
-            layout
-            transition={{ fade: 'easeIn' }}
-            variants={formVariants}
-            initial='closed'
-            animate='open'
-            exit='closed'
-            key='form'
-        >
+        <FormContainer>
             <form onSubmit={onSubmit}>
                 <label>Title:
                     <input type='text' onChange={(e) => setTitle(e.target.value)} value={title}/>
                 </label>
                 <input type='submit' value='Submit' />
             </form>
-        </motion.div>
+        </FormContainer>
     )
 };
 
@@ -62,15 +67,7 @@ function TaskForm ({ action, task, exitForm, }) {
     }, [task])
 
     return (
-        <motion.div
-            transition={{ ease: 'easeIn' }}
-            variants={formVariants}
-            initial='closed'
-            animate='open'
-            exit='closed'
-            key='form'
-            layout
-        >
+        <FormContainer>
             <form onSubmit={onSubmit} className='taskForm'>
                 <label>Title:
                     <input type='text' onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })} value={taskForm.title || ''}/>
@@ -80,7 +77,7 @@ function TaskForm ({ action, task, exitForm, }) {
                 </label>
                 <input type='submit' value='Submit'/>
             </form>
-        </motion.div>
+        </FormContainer>
     )
 };
 

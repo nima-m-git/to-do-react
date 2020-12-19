@@ -33,11 +33,12 @@ const Task = ({task, tasks, setTasks, setTaskForm}) => {
     }
 
     return (
-        <motion.li 
-            variants={variants}
-        >
+        <motion.li variants={variants}>
             <div className='task'>
-                <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: task.title, })}>x</button>
+                <button className='remove-btn' onClick={() => setRemoveBox({ 
+                    show: true, 
+                    item: task.title, 
+                })}>x</button>
                 <p className={`title ${(task.completed) ? 'crossed' : ''}`} onClick={() => {
                     setTaskForm({
                         show: true,
