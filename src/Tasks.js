@@ -53,19 +53,6 @@ const containerVariants = {
     }
 }
 
-const formVariants = {
-    open : {
-        scale: 1,
-        opacity: 1,
-    },
-    closed: {
-        opacity: 0,
-        originX: 0.8,
-        originY: 0,
-        scale: 0,
-    }
-}
-
 
 function Tasks({ group, updateGroupTasks }) {
     const [tasks, setTasks] = useImmer(group.tasks || {});
@@ -120,7 +107,7 @@ function Tasks({ group, updateGroupTasks }) {
         >
             <div className='tasks'>
                 <motion.div className='head-bar' layout>
-                    <p style={{ 'text-decoration': 'underline' }}>Tasks</p>
+                    <p style={{ 'textDecoration': 'underline' }}>Tasks</p>
                     <button className='new-btn' 
                         onClick={() => {
                             setTaskForm({
@@ -133,21 +120,11 @@ function Tasks({ group, updateGroupTasks }) {
 
                 <AnimatePresence exitBeforeEnter>
                     {taskForm.show && 
-                        <motion.div
-                            transition={{ ease: 'easeIn' }}
-                            variants={formVariants}
-                            initial='closed'
-                            animate='open'
-                            exit='closed'
-                            key='form'
-                            layout
-                        >
-                            <TaskForm 
-                                action={(taskForm.action === 'new') ? addTask : updateTask} 
-                                task={taskForm.selected} 
-                                exitForm={() => setTaskForm({ show: false })}
-                            /> 
-                        </motion.div>
+                        <TaskForm 
+                            action={(taskForm.action === 'new') ? addTask : updateTask} 
+                            task={taskForm.selected} 
+                            exitForm={() => setTaskForm({ show: false })}
+                        /> 
                     }
                 </AnimatePresence>
                     
