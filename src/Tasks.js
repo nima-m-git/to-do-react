@@ -24,7 +24,7 @@ const variants = {
             staggerChildren: 0.15, 
             delayChildren: 0.1,
 
-        }
+        },
     },
     closed: {
         opacity: 0,
@@ -32,7 +32,7 @@ const variants = {
             staggerChildren: 0.15, 
             staggerDirection: -1,
             wait: 'afterChildren' 
-        }
+        },
     }
 };
 
@@ -110,6 +110,7 @@ function Tasks({ group, updateGroupTasks }) {
  
     return (
         <motion.div 
+            layout
             className='tasksContainer'
             variants={containerVariants}
             initial='closed'
@@ -118,7 +119,7 @@ function Tasks({ group, updateGroupTasks }) {
             key='container'
         >
             <div className='tasks'>
-                <div className='head-bar'>
+                <motion.div className='head-bar' layout>
                     <p style={{ 'text-decoration': 'underline' }}>Tasks</p>
                     <button className='new-btn' 
                         onClick={() => {
@@ -128,16 +129,18 @@ function Tasks({ group, updateGroupTasks }) {
                             });
                         }
                     }>{(taskForm.show) ? '-' : '+'}</button>
-                </div>
+                </motion.div>
 
                 <AnimatePresence exitBeforeEnter>
                     {taskForm.show && 
                         <motion.div
+                            transition={{ ease: 'easeIn' }}
                             variants={formVariants}
                             initial='closed'
                             animate='open'
                             exit='closed'
                             key='form'
+                            layout
                         >
                             <TaskForm 
                                 action={(taskForm.action === 'new') ? addTask : updateTask} 
@@ -149,6 +152,7 @@ function Tasks({ group, updateGroupTasks }) {
                 </AnimatePresence>
                     
                 <motion.ul
+                    layout
                     variants={variants}
                     initial='closed'
                     animate='open'

@@ -5,7 +5,7 @@ import { GroupForm } from './Forms';
 import Tasks from './Tasks';
 import { ConfirmDelete } from './ConfirmDelete';
 import { useImmer } from 'use-immer';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, AnimateSharedLayout } from 'framer-motion';
 
 const formVariants = {
   open : {
@@ -62,15 +62,17 @@ function Groups() {
   })
 
   return (
-    <div>
-      <div className='groups'>
-        <div className='head-bar'>
+    <AnimateSharedLayout>
+      <motion.div className='groups' layout>
+        <motion.div className='head-bar' layout>
           <h2>Groups</h2>
           <button className='new-btn' onClick={() => setExpand({ groupForm: (expand.groupForm) ? false : true })}>{(expand.groupForm) ? '-' : '+'}</button>
-        </div>
+        </motion.div>
         <AnimatePresence>
           {expand.groupForm &&
             <motion.div
+              layout
+              transition={{ fade: 'easeIn' }}
               variants={formVariants}
               initial='closed'
               animate='open'
@@ -84,25 +86,26 @@ function Groups() {
             </motion.div> 
           }
         </AnimatePresence>
-        <ul>
+
+        <ul >
           {Object.entries(groups).map(([groupName, groupObj]) => {
             return (
-              <li key={groupName} className='group'>
-                <div className='groupHeader'>
+              <motion.li key={groupName} className='group' layout>
+                <motion.div className='groupHeader' layout>
                   <button className='remove-btn' onClick={() => setRemoveBox({ show: true, item: groupName, })}>x</button>
                   <p className='title'>{groupName} <span className='taskCount'>{`(${Object.keys(groupObj.tasks).length})`}</span></p>
                   
-                </div>
+                </motion.div>
                 <div className='taskBtn'>
                   {expand.selectedGroup === groupName 
                     ?
-                      <button className='minimize' onClick={() => setExpand({ selectedGroup: null })}>-</button>
+                      <motion.button className='minimize' onClick={() => setExpand({ selectedGroup: null })} layout>-</motion.button>
                     :
-                      <button className='expand' onClick={() => setExpand({ selectedGroup: groupName })}>+</button>
+                      <motion.button className='expand' onClick={() => setExpand({ selectedGroup: groupName })} layout>+</motion.button>
                   }
                 </div>
 
-                <AnimatePresence exitBeforeEnter>
+                <AnimatePresence>
                   {expand.selectedGroup === groupName && 
                     <Tasks group={groupObj} updateGroupTasks={updateGroupTasks}/>
                   }
@@ -115,12 +118,13 @@ function Groups() {
                     closeCallback={() => setRemoveBox({ show: false, })}
                   />
                 }
-              </li>
+              </motion.li>
             )
           })}
         </ul>
-      </div>
-    </div>
+
+      </motion.div>
+    </AnimateSharedLayout>
   )
 }
 
