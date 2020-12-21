@@ -43,6 +43,7 @@ const containerVariants = {
 
 function Tasks({ group, updateGroupTasks }) {
     const [tasks, setTasks] = useState(group.tasks || []);
+    const [sorted, setSorted] = useState(null);
     const [taskForm, setTaskForm] = useState({
         show: false,
         action: null,
@@ -55,8 +56,17 @@ function Tasks({ group, updateGroupTasks }) {
         removeTask: (taskToRemove) => setTasks(tasks.filter(task => task.id !== taskToRemove.id)),
     }
 
-    const orderTasksByComplete = () => {
-        (Object.entries(tasks).map(([taskName, task]) => task).sort((a, b) => (a.completed === b.completed) ? 0 : (a.completed) ? 1 : -1))
+    const orderByComplete = () => {
+        if (!sorted) {
+            setTasks([...tasks].sort((a, b) => (a.completed === b.completed) ? 0 : (a.completed) ? 1 : -1));
+        } else {
+            setTasks([...tasks].sort((a, b) => (a.completed === b.completed) ? 0 : (a.completed) ? -1 : 1));
+        }
+        setSorted(!sorted);
+    }
+
+    const removeCompleted = () => {
+        tasks.filter(task => task.completed).forEach(task => manageTask.removeTask(task));
     }
 
     useEffect(() => {
@@ -76,16 +86,22 @@ function Tasks({ group, updateGroupTasks }) {
             <div className='tasks'>
                 
                 {/* Head Bar */}
-                <motion.div className='head-bar' layout>
-                    <p style={{ 'textDecoration': 'underline' }}>Tasks</p>
-                    <button className='new-btn' 
-                        onClick={() => {
-                            setTaskForm({
-                                show: (!taskForm.show),
-                                action: 'new'
-                            });
-                        }
-                    }>{(taskForm.show) ? '-' : '+'}</button>
+                <motion.div layout>
+                    <div className='head-bar'>
+                        <p style={{ 'textDecoration': 'underline' }}>Tasks</p>
+                        <button className='new-btn' 
+                            onClick={() => {
+                                setTaskForm({
+                                    show: (!taskForm.show),
+                                    action: 'new'
+                                });
+                            }
+                        }>{(taskForm.show) ? '-' : '+'}</button>
+                    </div> 
+                    <div className='manage-bar'>
+                        <button onClick={() => orderByComplete()}>Sort</button>
+                        <button onClick={() => removeCompleted()}>Remove Completed</button>
+                    </div>
                 </motion.div>
                 
                 {/* Form */}
@@ -102,12 +118,12 @@ function Tasks({ group, updateGroupTasks }) {
                 {/* Task List */}
                 <motion.ul
                     className='tasksList'
-                    layout
                     variants={variants}
                     initial='closed'
                     animate='open'
                     exit='closed'
                     key='list'
+                    layout
                 >
                     {tasks.map((task, i) => (
                         <Task 

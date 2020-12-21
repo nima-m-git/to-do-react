@@ -30,7 +30,7 @@ function Groups() {
   })
 
   return (
-    <AnimateSharedLayout>
+    <AnimateSharedLayout type='crossfade'>
       <motion.div className='groups' layout>
         <motion.div className='head-bar' layout>
           <h2>Groups</h2>

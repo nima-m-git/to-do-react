@@ -3,12 +3,12 @@ $radius: 5px;
 %button {
     background: rgba(24, 209, 172, 0.8);
     color: white;
-    box-shadow: 0 0 5px -3px;
+    box-shadow: 0 0 5px -2px rgba(0, 0, 0, 0.5);
     border-radius: 7px;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     padding: 0.3em 0.6em;
     width: fit-content;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.5s, color 0.3s;
 }
 
 %button-hover {
@@ -92,6 +92,21 @@ header {
     margin: 0 auto;
     position: relative;
     left: 10px;
+
+    .manage-bar {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            font-size: 14px;
+            white-space: nowrap;
+            @extend %button;
+        }
+
+        button:hover {
+            @extend %button-hover;
+        }
+    }
 
     .tasks {
         border-radius: $radius;
