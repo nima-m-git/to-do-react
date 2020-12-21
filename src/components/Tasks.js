@@ -1,10 +1,9 @@
-import { useImmer } from 'use-immer';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { TaskForm } from './Forms';
 import Task from './Task';
 
-import { motion, AnimatePresence } from 'framer-motion';
 
 const variants = {
     open: {
@@ -51,25 +50,10 @@ function Tasks({ group, updateGroupTasks }) {
     });
 
     const manageTask = {
-        addTask: (task) => {
-            setTasks(tasks => [...tasks, task]);
-        },
-        updateTask: (taskToUpdate) => {
-            setTasks(tasks.map(task => (task.id === taskToUpdate.id) ? taskToUpdate : task));
-        },
-        completeTaskToggle: (taskToToggle) => {
-            const taskToUpdate = {
-                ...taskToToggle,
-                completed: !taskToToggle.completed,
-            }
-            manageTask.updateTask(taskToUpdate);
-        },
-        removeTask: (taskToRemove) => {
-            console.log(taskToRemove)
-            setTasks(tasks.filter(task => task.id !== taskToRemove.id));
-        },
+        addTask: (task) => setTasks(tasks => [...tasks, task]),
+        updateTask: (taskToUpdate) => setTasks(tasks.map(task => (task.id === taskToUpdate.id) ? taskToUpdate : task)),
+        removeTask: (taskToRemove) => setTasks(tasks.filter(task => task.id !== taskToRemove.id)),
     }
-
 
     const orderTasksByComplete = () => {
         (Object.entries(tasks).map(([taskName, task]) => task).sort((a, b) => (a.completed === b.completed) ? 0 : (a.completed) ? 1 : -1))
@@ -129,7 +113,7 @@ function Tasks({ group, updateGroupTasks }) {
                         <Task 
                             task={task} 
                             removeTask={manageTask.removeTask}
-                            completeTaskToggle={manageTask.completeTaskToggle}
+                            updateTask={manageTask.updateTask}
                             setTaskForm={setTaskForm}
                             key={i} 
                         />

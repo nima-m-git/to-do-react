@@ -14,19 +14,16 @@ const variants = {
 }
 
 
-const Task = ({task, removeTask, completeTaskToggle, setTaskForm}) => {
+const Task = ({task, removeTask, updateTask, setTaskForm}) => {
     const [removeBox, setRemoveBox] = useState({
         show: false,
         item: null,
     });
 
-    // const completeTaskToggle = (task) => {
-    //     const updatedTask = {
-    //         ...task,
-    //         completed: !task.completed,
-    //     };
-    //     updateTask(updatedTask);
-    // }
+    const completeTaskToggle = (task) => updateTask({
+        ...task,
+        completed: !task.completed,
+    });
 
     return (
         <motion.li variants={variants} layout>
