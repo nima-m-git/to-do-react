@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { v4 as uuidv4 } from 'uuid';
 
 const formVariants = {
     open : {
@@ -28,9 +29,11 @@ const FormContainer = (props) => (
     </motion.div>
 )
 
-function GroupForm ({ addGroup, exitForm, }) {
+
+const GroupForm = ({ addGroup, exitForm, }) => {
     const [title, setTitle] = useState('');
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
         addGroup(title);
         exitForm();
     };
@@ -48,14 +51,19 @@ function GroupForm ({ addGroup, exitForm, }) {
 };
 
 
-function TaskForm ({ action, task, exitForm, }) {
+const TaskForm = ({ action, task, exitForm, }) => {
     const [taskForm, setTaskForm] = useState({
         title: task?.title,
         note: task?.note,
-    })
+    });
 
-    const onSubmit = () => {
-        action(taskForm);
+    const onSubmit = (e) => {
+        const finalTask = {
+            ...taskForm,
+            id: task?.id || uuidv4(),
+        };
+        e.preventDefault();
+        action(finalTask);
         exitForm();
     }
 

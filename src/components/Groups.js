@@ -16,7 +16,7 @@ function Groups() {
     setGroups(draft => {
       draft[name] = {
         name,
-        tasks: {}
+        tasks: []
       };
     })
   }
@@ -34,7 +34,7 @@ function Groups() {
       <motion.div className='groups' layout>
         <motion.div className='head-bar' layout>
           <h2>Groups</h2>
-          <button className='new-btn' onClick={() => setExpand({ groupForm: !(expand.groupForm)})}>{(expand.groupForm) ? '-' : '+'}</button>
+          <button className='new-btn' onClick={() => setExpand({ groupForm: !(expand.groupForm) })}>{(expand.groupForm) ? '-' : '+'}</button>
         </motion.div>
         
         <AnimatePresence>

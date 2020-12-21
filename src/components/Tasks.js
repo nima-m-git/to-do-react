@@ -43,25 +43,36 @@ const containerVariants = {
 }
 
 function Tasks({ group, updateGroupTasks }) {
-    const [tasks, setTasks] = useImmer(group.tasks || {});
+    const [tasks, setTasks] = useState(group.tasks || []);
     const [taskForm, setTaskForm] = useState({
         show: false,
         action: null,
         selected: null,
     });
 
-
-    const addTask = (task) => {
-        setTasks(draft => {
-            draft[task.title] = task;
-        })
+    const manageTask = {
+        addTask: (task) => {
+            setTasks(tasks => [...tasks, task]);
+        },
+        updateTask: (taskToUpdate) => {
+            setTasks(tasks.map(task => (task.id === taskToUpdate.id) ? taskToUpdate : task));
+        },
+        completeTaskToggle: (taskToToggle) => {
+            const taskToUpdate = {
+                ...taskToToggle,
+                completed: !taskToToggle.completed,
+            }
+            manageTask.updateTask(taskToUpdate);
+        },
+        removeTask: (taskToRemove) => {
+            console.log(taskToRemove)
+            setTasks(tasks.filter(task => task.id !== taskToRemove.id));
+        },
     }
 
-    const updateTask = (task) => {
-        setTasks(draft => {
-            delete draft[taskForm.selected.title]; 
-            draft[task.title] = task;
-        })
+
+    const orderTasksByComplete = () => {
+        (Object.entries(tasks).map(([taskName, task]) => task).sort((a, b) => (a.completed === b.completed) ? 0 : (a.completed) ? 1 : -1))
     }
 
     useEffect(() => {
@@ -79,6 +90,8 @@ function Tasks({ group, updateGroupTasks }) {
             key='container'
         >
             <div className='tasks'>
+                
+                {/* Head Bar */}
                 <motion.div className='head-bar' layout>
                     <p style={{ 'textDecoration': 'underline' }}>Tasks</p>
                     <button className='new-btn' 
@@ -90,17 +103,19 @@ function Tasks({ group, updateGroupTasks }) {
                         }
                     }>{(taskForm.show) ? '-' : '+'}</button>
                 </motion.div>
-
+                
+                {/* Form */}
                 <AnimatePresence exitBeforeEnter>
                     {taskForm.show && 
                         <TaskForm 
-                            action={(taskForm.action === 'new') ? addTask : updateTask} 
+                            action={(taskForm.action === 'new') ? manageTask.addTask : manageTask.updateTask} 
                             task={taskForm.selected} 
                             exitForm={() => setTaskForm({ show: false })}
                         /> 
                     }
                 </AnimatePresence>
-                    
+                
+                {/* Task List */}
                 <motion.ul
                     className='tasksList'
                     layout
@@ -110,11 +125,11 @@ function Tasks({ group, updateGroupTasks }) {
                     exit='closed'
                     key='list'
                 >
-                    {Object.entries(tasks).map(([taskTitle, task], i) => (
+                    {tasks.map((task, i) => (
                         <Task 
                             task={task} 
-                            tasks={tasks} 
-                            setTasks={setTasks} 
+                            removeTask={manageTask.removeTask}
+                            completeTaskToggle={manageTask.completeTaskToggle}
                             setTaskForm={setTaskForm}
                             key={i} 
                         />

@@ -14,41 +14,38 @@ const variants = {
 }
 
 
-const Task = ({task, tasks, setTasks, setTaskForm}) => {
+const Task = ({task, removeTask, completeTaskToggle, setTaskForm}) => {
     const [removeBox, setRemoveBox] = useState({
         show: false,
         item: null,
     });
 
-    const removeTask = (taskName) => {
-        setTasks(draft => {
-            delete draft[taskName];
-        })
-    }
-
-    const completeTaskToggle = (task) => {
-        setTasks(draft => {
-            draft[task].completed = (tasks[task].completed) ? false : true;
-        })
-    }
+    // const completeTaskToggle = (task) => {
+    //     const updatedTask = {
+    //         ...task,
+    //         completed: !task.completed,
+    //     };
+    //     updateTask(updatedTask);
+    // }
 
     return (
-        <motion.li variants={variants}>
+        <motion.li variants={variants} layout>
             <div className='task'>
                 <button className='remove-btn' onClick={() => setRemoveBox({ 
                     show: true, 
-                    item: task.title, 
+                    item: task, 
                 })}>x</button>
-                <p className={`title ${(task.completed) ? 'crossed' : ''}`} onClick={() => {
+                <motion.p layout className={`title${(task.completed) ? ' crossed' : ''}`} onClick={() => {
                     setTaskForm({
                         show: true,
                         action: 'update',
                         selected: task,
                     });
-                }}>{task.title}</p>
-                <button className='complete-btn' onClick={() => completeTaskToggle(task.title)}>&#10003;</button>
+                }}>{task.title}</motion.p>
+                <button className='complete-btn' onClick={() => completeTaskToggle(task)}>&#10003;</button>
             </div>
-            {removeBox.show && (removeBox.item === task.title) &&
+
+            {removeBox.show && (removeBox.item.id === task.id) &&
                 <ConfirmDelete 
                     deleteFunc={removeTask}
                     deleteItem={removeBox.item}
