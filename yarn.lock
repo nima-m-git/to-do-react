@@ -1334,6 +1334,22 @@
     "schema-utils" "^2.6.5"
     "source-map" "^0.7.3"
 
+"@popmotion/easing@^1.0.1":
+  "integrity" "sha512-IkdW0TNmRnWTeWI7aGQIVDbKXPWHVEYdGgd5ZR4SH/Ty/61p63jCjrPxX1XrR7IGkl08bjhJROStD7j+RKgoIw=="
+  "resolved" "https://registry.npmjs.org/@popmotion/easing/-/easing-1.0.2.tgz"
+  "version" "1.0.2"
+
+"@popmotion/popcorn@^0.4.4":
+  "integrity" "sha512-jYO/8319fKoNLMlY4ZJPiPu8Ea8occYwRZhxpaNn/kZsK4QG2E7XFlXZMJBsTWDw7I1i0uaqyC4zn1nwEezLzg=="
+  "resolved" "https://registry.npmjs.org/@popmotion/popcorn/-/popcorn-0.4.4.tgz"
+  "version" "0.4.4"
+  dependencies:
+    "@popmotion/easing" "^1.0.1"
+    "framesync" "^4.0.1"
+    "hey-listen" "^1.0.8"
+    "style-value-types" "^3.1.7"
+    "tslib" "^1.10.0"
+
 "@rollup/plugin-node-resolve@^7.1.1":
   "integrity" "sha512-RxtSL3XmdTAE2byxekYLnx+98kEUOrPHF/KRVjLH+DEIHy6kjIw7YINQzn+NXiH/NTrQLAwYs0GWB+csWygA9Q=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz"
@@ -2269,6 +2285,11 @@
     "define-properties" "^1.1.3"
     "es-abstract" "^1.17.0"
     "is-string" "^1.0.5"
+
+"array-move@^3.0.1":
+  "integrity" "sha512-H3Of6NIn2nNU1gsVDqDnYKY/LCdWvCMMOWifNGhKcVQgiZ6nOek39aESOvro6zmueP07exSl93YLvkN4fZOkSg=="
+  "resolved" "https://registry.npmjs.org/array-move/-/array-move-3.0.1.tgz"
+  "version" "3.0.1"
 
 "array-union@^1.0.1":
   "integrity" "sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk="
@@ -5282,7 +5303,7 @@
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-"framesync@^4.1.0":
+"framesync@^4.0.1", "framesync@^4.1.0":
   "integrity" "sha512-MmgZ4wCoeVxNbx2xp5hN/zPDCbLSKiDt4BbbslK7j/pM2lg5S0vhTNv1v8BCVb99JPIo6hXBFdwzU7Q4qcAaoQ=="
   "resolved" "https://registry.npmjs.org/framesync/-/framesync-4.1.0.tgz"
   "version" "4.1.0"
@@ -8548,7 +8569,7 @@
   dependencies:
     "ts-pnp" "^1.1.6"
 
-"popmotion@9.0.0-rc.20":
+"popmotion@^9.0.0-rc.20", "popmotion@9.0.0-rc.20":
   "integrity" "sha512-f98sny03WuA+c8ckBjNNXotJD4G2utG/I3Q23NU69OEafrXtxxSukAaJBxzbtxwDvz3vtZK69pu9ojdkMoBNTg=="
   "resolved" "https://registry.npmjs.org/popmotion/-/popmotion-9.0.0-rc.20.tgz"
   "version" "9.0.0-rc.20"
@@ -11120,7 +11141,7 @@
     "loader-utils" "^2.0.0"
     "schema-utils" "^2.7.0"
 
-"style-value-types@^3.1.9":
+"style-value-types@^3.1.7", "style-value-types@^3.1.9":
   "integrity" "sha512-050uqgB7WdvtgacoQKm+4EgKzJExVq0sieKBQQtJiU3Muh6MYcCp4T3M8+dfl6VOF2LR0NNwXBP1QYEed8DfIw=="
   "resolved" "https://registry.npmjs.org/style-value-types/-/style-value-types-3.1.9.tgz"
   "version" "3.1.9"

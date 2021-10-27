@@ -13,13 +13,13 @@ function Groups() {
   });
 
   const addGroup = (name) => {
-    setGroups(draft => {
+    setGroups((draft) => {
       draft[name] = {
         name,
-        tasks: []
+        tasks: [],
       };
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     // Initialize General Group if empty
@@ -27,32 +27,36 @@ function Groups() {
       addGroup('General');
     }
     localStorage.setItem('Groups', JSON.stringify(groups));
-  })
+  });
 
   return (
-    <AnimateSharedLayout type='crossfade'>
-      <motion.div className='groups' layout>
-        <motion.div className='head-bar' layout>
+    <AnimateSharedLayout>
+      <motion.div className="groups" layout>
+        <motion.div className="head-bar" layout>
           <h2>Groups</h2>
-          <button className='new-btn' onClick={() => setExpand({ groupForm: !(expand.groupForm) })}>{(expand.groupForm) ? '-' : '+'}</button>
+          <button className="new-btn" onClick={() => setExpand({ groupForm: !expand.groupForm })}>
+            {expand.groupForm ? '-' : '+'}
+          </button>
         </motion.div>
-        
+
         <AnimatePresence>
-          {expand.groupForm &&
-              <GroupForm 
-                addGroup={addGroup}
-                exitForm={() => setExpand({ groupForm: false })}
-              /> 
-          }
+          {expand.groupForm && (
+            <GroupForm addGroup={addGroup} exitForm={() => setExpand({ groupForm: false })} />
+          )}
         </AnimatePresence>
 
-          {Object.entries(groups).map(([groupName, group], i) => (
-            <Group group={group} expand={expand} setExpand={setExpand} setGroups={setGroups} key={i}/>)
-          )}
-
+        {Object.entries(groups).map(([groupName, group], i) => (
+          <Group
+            group={group}
+            expand={expand}
+            setExpand={setExpand}
+            setGroups={setGroups}
+            key={i}
+          />
+        ))}
       </motion.div>
     </AnimateSharedLayout>
-  )
+  );
 }
 
-export default Groups
+export default Groups;
